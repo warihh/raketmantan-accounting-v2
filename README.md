@@ -2,6 +2,10 @@
 
 **Demo aplikasi:** [Buka Raket Mantan Accounting v2](https://warihh.github.io/raketmantan-accounting-v2/frontend/)
 
+Demo Login Apps:
+Gmail: testakun@gmail.com
+Kata Sandi: admin123
+
 ## Identitas Tugas
 
 - **Nama:** Wahab Warih Timur Priyanto
