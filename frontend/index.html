@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raket Mantan | Accounting v2</title>
+  <meta name="description" content="Sistem Informasi Akuntansi Raket Mantan">
+  <link rel="icon" type="image/png" href="../assets/logo-raket-mantan.PNG">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#17324D',
+            slatepadel: '#1C85C7',
+            volt: '#1C85C7',
+            voltlight: '#FFAFCC'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <!-- AUTH SCREEN -->
+  <section id="auth-screen" class="auth-screen">
+    <div class="auth-decoration"></div>
+    <div class="auth-card">
+      <div class="auth-brand">
+        <img class="brand-logo" src="../assets/logo-raket-mantan.PNG" alt="Logo Raket Mantan">
+        <div>
+          <div class="brand-name">RAKET MANTAN</div>
+          <div class="brand-sub">Accounting System</div>
+        </div>
+      </div>
+
+      <div class="auth-heading">
+        <span>PADEL BUSINESS</span>
+        <h1>Punya Mantan, Jadi Andalan.</h1>
+        <p>Login untuk kepoin mantan.</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button id="tab-login" class="auth-tab active">Login</button>
+        <button id="tab-register" class="auth-tab">Buat Akun</button>
+      </div>
+
+      <form id="login-form" class="auth-form">
+        <label>Email<input id="login-email" type="email" required placeholder="nama@email.com"></label>
+        <label>Password<input id="login-password" type="password" required placeholder="••••••••"></label>
+        <button class="auth-submit" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Masuk</button>
+      </form>
+
+      <form id="register-form" class="auth-form hidden">
+        <label>Nama Lengkap<input id="register-name" required placeholder="Nama lengkap"></label>
+        <label>Email<input id="register-email" type="email" required placeholder="nama@email.com"></label>
+        <label>Password<input id="register-password" type="password" minlength="6" required placeholder="Minimal 6 karakter"></label>
+        <label>Role
+          <select id="register-role">
+            <option value="admin">Admin</option>
+            <option value="owner">Owner</option>
+          </select>
+        </label>
+        <button class="auth-submit" type="submit"><i class="fa-solid fa-user-plus"></i> Buat Akun</button>
+      </form>
+
+      <p id="auth-message" class="auth-message"></p>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <div id="app-shell" class="hidden">
+    <div id="mobile-overlay"></div>
+    <aside id="sidebar">
+      <div class="sidebar-brand">
+        <img class="brand-logo small" src="../assets/logo-raket-mantan.PNG" alt="Logo Raket Mantan">
+        <div>
+          <div class="brand-name">RAKET MANTAN</div>
+          <div class="brand-sub">Accounting v2</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button data-page="dashboard" class="nav-item active"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></button>
+        <button data-page="inventory" class="nav-item"><i class="fa-solid fa-boxes-stacked"></i><span>Persediaan</span></button>
+        <button data-page="sales" class="nav-item"><i class="fa-solid fa-cash-register"></i><span>Penjualan</span></button>
+        <button data-page="payouts" class="nav-item"><i class="fa-solid fa-hand-holding-dollar"></i><span>Consignment</span><span id="payout-nav-badge" class="nav-badge">0</span></button>
+      </nav>
+
+      <div class="sidebar-user">
+        <div class="user-avatar" id="user-avatar">RM</div>
+        <div class="user-info">
+          <strong id="sidebar-user-name">User</strong>
+          <span id="sidebar-user-role">Admin</span>
+        </div>
+        <button id="logout-btn" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+      </div>
+    </aside>
+
+    <main id="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobile-menu-btn" class="mobile-menu"><i class="fa-solid fa-bars"></i></button>
+          <div><span id="page-eyebrow">Overview</span><h1 id="page-title">Dashboard</h1></div>
+        </div>
+        <div class="topbar-user">
+          <div class="topbar-user-text"><strong id="header-user-name">User</strong><span id="header-user-role">Admin</span></div>
+          <div class="user-avatar small" id="header-avatar">RM</div>
+        </div>
+      </header>
+
+      <div class="content">
+        <!-- DASHBOARD -->
+        <section id="page-dashboard" class="page-section">
+          <div class="hero">
+            <div class="hero-copy">
+              <span class="eyebrow-pill">Jual • Beli • Titip Jual • Raket</span>
+              <h2>RAKET MANTAN</h2>
+              <p>Punya Mantan, Jadi Andalan</p>
+            </div>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-arrow-trend-up"></i></div><div><span>Laba Kotor Bulan Ini</span><strong id="stat-month-profit">Rp0</strong></div></div>
+            <div class="stat-card"><div class="stat-icon yellow"><i class="fa-solid fa-hand-holding-dollar"></i></div><div><span>Hutang Consignment</span><strong id="stat-payout-due">Rp0</strong></div></div>
+            <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-basket-shopping"></i></div><div><span>Raket Terjual</span><strong id="stat-sold">0</strong></div></div>
+            <div class="stat-card"><div class="stat-icon purple"><i class="fa-solid fa-box-open"></i></div><div><span>Raket Tersedia</span><strong id="stat-available">0</strong></div></div>
+          </div>
+
+          <div class="two-column">
+            <div class="panel">
+              <div class="panel-heading"><div><h3>Penjualan Terbaru</h3><p>Transaksi paling baru</p></div><button data-page="sales" class="text-link">Buka penjualan</button></div>
+              <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Foto</th><th>SKU</th><th>Pembeli</th><th>Harga</th><th>Laba</th><th>Status</th></tr></thead><tbody id="dashboard-sales-body"></tbody></table></div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading"><div><h3>Consignment</h3><p>Belum dibayarkan</p></div><button data-page="payouts" class="text-link">Kelola</button></div>
+              <div id="dashboard-payout-list" class="payout-preview"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- INVENTORY -->
+        <section id="page-inventory" class="page-section hidden">
+          <div class="section-head"><div><h2>Persediaan Raket</h2><p>Master data unit raket dan status kepemilikan.</p></div><button id="add-inventory-btn" class="primary-btn"><i class="fa-solid fa-plus"></i> Tambah Raket</button></div>
+          <div class="panel">
+            <div class="toolbar">
+              <input id="inventory-search" placeholder="Cari SKU, brand, type, penitip...">
+              <select id="inventory-owner-filter"><option value="all">Semua Kepemilikan</option><option value="milik_sendiri">Milik Sendiri</option><option value="konsinyasi">Consignment</option></select>
+              <select id="inventory-status-filter"><option value="all">Semua Status</option><option value="tersedia">Tersedia</option><option value="terjual">Terjual</option></select>
+            </div>
+            <div class="table-wrap"><table><thead><tr><th>SKU</th><th>Tanggal Masuk</th><th>Foto</th><th>Brand</th><th>Type / Shape</th><th>Kondisi</th><th>Kepemilikan</th><th>Penitip</th><th>Modal</th><th>Ongkir Masuk</th><th>Jual</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="inventory-body"></tbody></table></div>
+          </div>
+        </section>
+
+        <!-- SALES -->
+        <section id="page-sales" class="page-section hidden">
+          <div class="section-head"><div><h2>Penjualan & Pembayaran</h2><p>Catat transaksi dan pantau hasil penjualan.</p></div><button id="add-sale-btn" class="primary-btn"><i class="fa-solid fa-plus"></i> Catat Penjualan</button></div>
+          <div class="mini-stats"><div><span>Transaksi</span><strong id="sales-total-count">0</strong></div><div><span>Penjualan</span><strong id="sales-total-revenue">Rp0</strong></div><div><span>Laba / Komisi</span><strong id="sales-total-profit">Rp0</strong></div></div>
+          <div class="panel"><div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Foto</th><th>SKU</th><th>Brand</th><th>Type / Shape</th><th>Pembeli</th><th>Harga Final</th><th>Komisi</th><th>Ongkir</th><th>Laba</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="sales-body"></tbody></table></div></div>
+        </section>
+
+        <!-- PAYOUTS -->
+        <section id="page-payouts" class="page-section hidden">
+          <div class="section-head"><div><h2>Consignment Payout</h2><p>Kewajiban kepada pemilik raket yang telah terjual.</p></div></div>
+          <div class="mini-stats"><div><span>Total Pending</span><strong id="payout-pending-count">0</strong></div><div><span>Nilai Hutang</span><strong id="payout-pending-total">Rp0</strong></div><div><span>Sudah Dibayar</span><strong id="payout-paid-total">Rp0</strong></div></div>
+          <div class="panel"><div class="table-wrap"><table><thead><tr><th>SKU</th><th>Foto</th><th>Penitip</th><th>Nilai Jual</th><th>Hak Penitip</th><th>Status</th><th>Tanggal Bayar</th><th>Aksi</th></tr></thead><tbody id="payout-body"></tbody></table></div></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- INVENTORY MODAL -->
+  <div id="inventory-modal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-heading"><div><h3 id="inventory-modal-title">Tambah Raket</h3><p>Master persediaan</p></div><button data-close="inventory-modal"><i class="fa-solid fa-xmark"></i></button></div>
+      <form id="inventory-form" class="modal-body">
+        <input type="hidden" id="inventory-id">
+        <div class="form-grid">
+          <label>SKU / Kode<input id="inv-sku" value="RM-" required></label>
+          <label>Tanggal Masuk<input id="inv-received-date" type="date" required></label>
+          <label>Brand<input id="inv-brand" required></label>
+          <label>Type<input id="inv-type" required placeholder="Contoh: Fenix Pro 5 2025 / Air Viper 2026"></label>
+          <label>Shape<select id="inv-shape"><option>Teardrop</option><option>Round</option><option>Diamond</option><option>Hybrid</option></select></label>
+          <label>Kondisi<select id="inv-condition"><option value="Baru">Brand New</option><option value="Bekas/Like New">Second</option></select></label>
+          <label>Kepemilikan<select id="inv-ownership"><option value="milik_sendiri">Milik Sendiri</option><option value="konsinyasi">Consignment</option></select></label>
+          <label>Harga Modal / Nilai Buku<input id="inv-cost" type="number" min="0" step="1000" required></label>
+          <label>Biaya Ongkir Masuk (opsional)<input id="inv-shipping-cost" type="number" min="0" step="1000" placeholder="0"></label>
+          <label>Expect Harga Jual<input id="inv-selling" type="number" min="0" step="1000" required></label>
+          <label id="consignor-field">Nama Penitip<input id="inv-consignor" placeholder="Wajib untuk Consignment"></label>
+          <label>Foto Raket (opsional)<input id="inv-photo" type="file" accept="image/jpeg,image/png,image/webp"></label>
+          <div id="inv-photo-preview" class="inventory-photo-preview" aria-live="polite"></div>
+        </div>
+        <div class="modal-actions"><button type="button" class="secondary-btn" data-close="inventory-modal">Batal</button><button class="primary-btn">Simpan</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SALE MODAL -->
+  <div id="sale-modal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-heading"><div><h3>Catat Penjualan</h3><p>Transaksi completed otomatis memproses stok dan payout Consignment.</p></div><button data-close="sale-modal"><i class="fa-solid fa-xmark"></i></button></div>
+      <form id="sale-form" class="modal-body">
+        <label>Pilih Raket<select id="sale-inventory" required></select></label>
+        <div id="sale-preview" class="sale-preview hidden"></div>
+        <div class="form-grid">
+          <label>Nama Pembeli<input id="sale-customer" required placeholder="Nama pelanggan"></label>
+          <label>Tanggal Transaksi<input id="sale-date" type="datetime-local" required></label>
+          <label>Harga Jual Final<input id="sale-price" type="number" min="1" step="1000" required></label>
+          <label id="commission-field">Fee / Komisi Consignment<input id="sale-commission" type="number" min="0" step="1000" value="0"></label>
+          <label>Biaya Ongkir Penjualan (opsional)<input id="sale-shipping-cost" type="number" min="0" step="1000" placeholder="0"></label>
+          <label>Status<select id="sale-status"><option value="completed">Completed</option><option value="refunded">Refunded</option></select></label>
+        </div>
+        <div class="calculation-box"><span>Estimasi laba / komisi</span><strong id="sale-profit-preview">Rp0</strong></div>
+        <div class="modal-actions"><button type="button" class="secondary-btn" data-close="sale-modal">Batal</button><button class="primary-btn">Simpan Transaksi</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="sale-edit-modal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-heading"><div><h3>Edit Transaksi</h3><p id="sale-edit-summary"></p></div><button data-close="sale-edit-modal"><i class="fa-solid fa-xmark"></i></button></div>
+      <form id="sale-edit-form" class="modal-body">
+        <input type="hidden" id="sale-edit-id">
+        <div class="form-grid">
+          <label>Nama Pembeli<input id="sale-edit-customer" required></label>
+          <label>Tanggal Transaksi<input id="sale-edit-date" type="datetime-local" required></label>
+          <label>Harga Jual Final<input id="sale-edit-price" type="number" min="1" step="1000" required></label>
+          <label id="sale-edit-commission-field">Fee / Komisi Consignment<input id="sale-edit-commission" type="number" min="0" step="1000" value="0"></label>
+          <label>Biaya Ongkir Penjualan (opsional)<input id="sale-edit-shipping-cost" type="number" min="0" step="1000" placeholder="0"></label>
+        </div>
+        <div class="sale-edit-note">Status transaksi dan raket tetap. Ongkir mengurangi laba; perubahan harga atau komisi memperbarui payout yang masih pending.</div>
+        <div class="modal-actions"><button type="button" class="secondary-btn" data-close="sale-edit-modal">Batal</button><button id="sale-edit-submit" class="primary-btn">Simpan Perubahan</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="../backend/app.js"></script>
+</body>
+</html>
